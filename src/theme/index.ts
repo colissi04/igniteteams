@@ -25,5 +25,9 @@ export default {
 		MD: 16,
 		LG: 18,
 		XL: 24
+	},
+	BUTTON_TYPE: {
+		PRIMARY: 'PRIMARY',
+		SECONDARY: 'SECONDARY'
 	}
 };
