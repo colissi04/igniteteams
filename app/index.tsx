@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from "react";
-import type { StatusBarStyle } from "react-native"
+import React, {useEffect} from "react";
 import { ThemeProvider } from "styled-components/native";
-import { StatusBar, SafeAreaView } from 'react-native';
+import { StatusBar, SafeAreaView, Platform } from 'react-native';
 
 import { 
   useFonts, 
@@ -11,23 +10,24 @@ import {
 
 import theme from "../src/theme";
 
-import { Groups } from '@screens/Groups';
 import { Loading } from "@components/Loading";
-import { NewGroup } from "@screens/NewGroup";
-import { Players } from "@screens/Players";
+
+import { Routes } from "../src/routes";
 
 export default function Index() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
 
   useEffect(() => {
-    StatusBar.setBarStyle('light-content'); 
-    StatusBar.setBackgroundColor('#202024'); 
-  }, []); 
+    StatusBar.setBarStyle('dark-content'); // Configura o estilo do conteúdo da StatusBar
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor('#202024'); // Configura a cor de fundo no Android
+    }
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <ThemeProvider theme={theme}>
-          { fontsLoaded ? <Players /> :<Loading/>}
+          { fontsLoaded ? <Routes /> :<Loading/>}
       </ThemeProvider>
     </SafeAreaView>
   )
