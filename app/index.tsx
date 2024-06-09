@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import { ThemeProvider } from "styled-components/native";
-import { StatusBar, SafeAreaView, Platform } from 'react-native';
+import { StatusBar, SafeAreaView, Platform, View } from 'react-native';
 
 import { 
   useFonts, 
@@ -25,10 +25,8 @@ export default function Index() {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ThemeProvider theme={theme}>
-          { fontsLoaded ? <Routes /> :<Loading/>}
-      </ThemeProvider>
-    </SafeAreaView>
+        <ThemeProvider theme={theme}>
+            { fontsLoaded ? <Routes /> :<Loading/>}
+        </ThemeProvider>
   )
 }
