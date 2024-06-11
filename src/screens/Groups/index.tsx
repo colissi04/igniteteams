@@ -12,9 +12,12 @@ import {
   Container, 
 } from "./styles";
 import { groupsGetAll } from "@storage/group/groupsGetAll";
+import { Alert } from "react-native";
+import { Loading } from "@components/Loading";
 
 
 export function Groups(){
+  const [isLoading, setIsLoading] = useState(true);
   const [groups, setGroups] = useState<string[]>([]);
 
   const navigation = useNavigation();
@@ -25,11 +28,15 @@ export function Groups(){
 
   async function fetchGroups(){
     try{
+      setIsLoading(true);
+
       const data = await groupsGetAll();
       setGroups(data);
 
     } catch(error){
-      console.log(error)
+      Alert.alert('Turma', 'Não foi possível buscar as turmas.')
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -50,20 +57,23 @@ export function Groups(){
         subtitle="Jogue com sua turma"
       />
 
-      <FlatList
-        data={groups}
-        keyExtractor={item => item}
-        renderItem={({ item }) => (
-          <GroupCard 
-            title={item} 
-            onPress={() => handleOpenGroup(item)}
-          />
-        )}
-        contentContainerStyle={groups.length === 0 && {flex: 1}}
-        ListEmptyComponent={() =>( 
-          <ListEmpty message="Que tal cadastrar a primeira turma?"/>
-        )}
-      />
+      {
+        isLoading ? <Loading /> :
+        <FlatList
+          data={groups}
+          keyExtractor={item => item}
+          renderItem={({ item }) => (
+            <GroupCard 
+              title={item} 
+              onPress={() => handleOpenGroup(item)}
+            />
+          )}
+          contentContainerStyle={groups.length === 0 && {flex: 1}}
+          ListEmptyComponent={() =>( 
+            <ListEmpty message="Que tal cadastrar a primeira turma?"/>
+          )}
+        />
+      }
 
       <Button 
         title="Criar nova turma"
